@@ -109,6 +109,7 @@ This creates four tables:
 | `donations`     | One-time gifts and each recurring charge. Amounts in **cents**. |
 | `subscriptions` | Recurring monthly gifts + their status. |
 | `pledges`       | Buckle Up Pledge form submissions. |
+| `subscribers`   | Newsletter email signups (deduped by email). |
 
 Row Level Security is **enabled with no public policies**, so the browser
 (anon key) can't read or write these tables. All writes happen server-side
@@ -257,6 +258,21 @@ stat tile on the Home and Impact pages shows a **live pledge count**.
 > If you created the `pledges` table before the wall existed, run the
 > `ALTER TABLE ... add column show_on_wall` statement noted in
 > `supabase/schema.sql`.
+
+### Newsletter signup
+
+A newsletter form in the footer (every page) collects emails into the
+`subscribers` table via `/api/newsletter`. It's idempotent (re-subscribing the
+same email won't error) and, like everything else, fails soft before Supabase
+is configured. To send newsletters, export the `subscribers` table or connect
+it to an email tool (e.g. Mailchimp, Resend, Buttondown).
+
+### Share buttons
+
+`components/ShareButtons.tsx` adds Facebook, X, email, and copy-link sharing
+(plus the native mobile share sheet where supported). They appear on the Story
+page and in the pledge success state ("Challenge 3 friends"). Shared links use
+the branded Open Graph image automatically.
 
 ---
 

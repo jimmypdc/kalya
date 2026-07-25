@@ -76,6 +76,13 @@ create index if not exists pledges_created_at_idx
 --   alter table public.pledges
 --     add column if not exists show_on_wall boolean not null default true;
 
+-- ── subscribers (newsletter signups) ─────────────────────────────────────────
+create table if not exists public.subscribers (
+  id         uuid primary key default gen_random_uuid(),
+  email      text unique not null,
+  created_at timestamptz not null default now()
+);
+
 -- ── Row Level Security ───────────────────────────────────────────────────────
 -- Enable RLS with no policies: the anon/public key gets no access. The
 -- service-role key (used only on the server) bypasses RLS entirely.
@@ -83,6 +90,7 @@ alter table public.donors        enable row level security;
 alter table public.donations     enable row level security;
 alter table public.subscriptions enable row level security;
 alter table public.pledges       enable row level security;
+alter table public.subscribers   enable row level security;
 
 -- OPTIONAL: if you ever want to show a public, anonymized "pledge wall"
 -- (e.g. first names only) using the anon key, you could add a SELECT policy.

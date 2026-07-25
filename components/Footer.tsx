@@ -1,15 +1,36 @@
 import Link from 'next/link';
 import { Heart, Mail, Shield } from 'lucide-react';
+import NewsletterForm from '@/components/NewsletterForm';
 import { navLinks, siteConfig, kayla } from '@/lib/site';
 
 /**
- * Site footer: mission reminder, navigation, contact, and legal note.
+ * Site footer: newsletter signup, mission reminder, navigation, contact,
+ * and legal note.
  */
 export default function Footer() {
   const year = 2025; // Static to keep server/client render deterministic; bump as needed.
 
   return (
     <footer className="mt-auto border-t border-teal-900/10 bg-teal-950 text-teal-100">
+      {/* Newsletter band */}
+      <div className="border-b border-teal-900">
+        <div className="container-content flex flex-col items-start justify-between gap-6 py-10 lg:flex-row lg:items-center">
+          <div className="max-w-md">
+            <h2 className="font-serif text-2xl font-bold text-white">
+              Stay connected
+            </h2>
+            <p className="mt-2 text-sm text-teal-200">
+              Get occasional updates on scholarships, events, and safety
+              campaigns. We&apos;ll only email when it matters — and never share
+              your address.
+            </p>
+          </div>
+          <div className="w-full max-w-md">
+            <NewsletterForm variant="dark" />
+          </div>
+        </div>
+      </div>
+
       <div className="container-content grid gap-10 py-14 md:grid-cols-4">
         {/* Brand + mission */}
         <div className="md:col-span-2">

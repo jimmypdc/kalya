@@ -5,6 +5,7 @@ import PageHeader from '@/components/PageHeader';
 import KaylaImage from '@/components/KaylaImage';
 import SectionHeading from '@/components/SectionHeading';
 import TributeCard from '@/components/TributeCard';
+import ShareButtons from '@/components/ShareButtons';
 import { kayla } from '@/lib/site';
 import { tributes } from '@/lib/tributes';
 
@@ -95,6 +96,23 @@ export default function StoryPage() {
             {tributes.map((tribute) => (
               <TributeCard key={tribute.id} tribute={tribute} />
             ))}
+          </div>
+
+          {/* Share */}
+          <div className="mt-12 flex flex-col items-center gap-4 rounded-2xl border border-teal-900/10 bg-white p-6 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div>
+              <h3 className="font-serif text-lg font-bold text-teal-900">
+                Share Kayla&apos;s story
+              </h3>
+              <p className="mt-1 text-sm text-teal-700">
+                Sharing her story could be the reason someone buckles up. Pass it
+                on.
+              </p>
+            </div>
+            <ShareButtons
+              title="Kayla's Story — Buckle Up for Kayla"
+              text="Kayla Marie Joiner's story is a reminder to always buckle up. Read it, and take the pledge."
+            />
           </div>
         </div>
       </section>
