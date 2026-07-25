@@ -83,6 +83,22 @@ create table if not exists public.subscribers (
   created_at timestamptz not null default now()
 );
 
+-- ── memories (memorial guestbook) ────────────────────────────────────────────
+-- Submitted publicly but only shown after review, so the memorial can't be
+-- spammed or defaced. Approve a memory in the Supabase Table Editor by setting
+-- its `approved` column to true.
+create table if not exists public.memories (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null,
+  location   text,
+  message    text not null,
+  approved   boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists memories_approved_created_idx
+  on public.memories (approved, created_at desc);
+
 -- ── Row Level Security ───────────────────────────────────────────────────────
 -- Enable RLS with no policies: the anon/public key gets no access. The
 -- service-role key (used only on the server) bypasses RLS entirely.
@@ -91,6 +107,7 @@ alter table public.donations     enable row level security;
 alter table public.subscriptions enable row level security;
 alter table public.pledges       enable row level security;
 alter table public.subscribers   enable row level security;
+alter table public.memories      enable row level security;
 
 -- OPTIONAL: if you ever want to show a public, anonymized "pledge wall"
 -- (e.g. first names only) using the anon key, you could add a SELECT policy.

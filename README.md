@@ -110,6 +110,7 @@ This creates four tables:
 | `subscriptions` | Recurring monthly gifts + their status. |
 | `pledges`       | Buckle Up Pledge form submissions. |
 | `subscribers`   | Newsletter email signups (deduped by email). |
+| `memories`      | Memorial guestbook entries (shown only after approval). |
 
 Row Level Security is **enabled with no public policies**, so the browser
 (anon key) can't read or write these tables. All writes happen server-side
@@ -273,6 +274,20 @@ it to an email tool (e.g. Mailchimp, Resend, Buttondown).
 (plus the native mobile share sheet where supported). They appear on the Story
 page and in the pledge success state ("Challenge 3 friends"). Shared links use
 the branded Open Graph image automatically.
+
+### Memorial page & guestbook (`/memorial`)
+
+A photo gallery plus a "leave a memory" guestbook.
+
+- **Photos:** `components/PhotoGallery.tsx` uses labeled placeholder images.
+  Add real photos to `public/kayla/gallery/` and update the `src`/`alt` entries
+  (instructions are in the file).
+- **Guestbook:** visitors submit memories via `/api/memories` into the
+  `memories` table. **Entries are held for review** (`approved = false`) and only
+  appear on the wall once approved — this keeps the memorial safe from spam.
+- **To approve a memory:** open the Supabase **Table Editor → `memories`**, find
+  the row, and set its `approved` column to `true`. It appears within a couple of
+  minutes (the page revalidates). You can also delete inappropriate entries here.
 
 ---
 

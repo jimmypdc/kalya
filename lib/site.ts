@@ -27,6 +27,7 @@ export const kayla = {
 export const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/story', label: "Kayla's Story" },
+  { href: '/memorial', label: 'Memorial' },
   { href: '/buckle-up', label: 'Buckle Up' },
   { href: '/scholarships', label: 'Scholarships' },
   { href: '/impact', label: 'Impact' },

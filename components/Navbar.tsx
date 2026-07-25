@@ -60,7 +60,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-1 xl:flex">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
@@ -79,7 +79,7 @@ export default function Navbar() {
         </ul>
 
         {/* Desktop CTAs */}
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-2 xl:flex">
           <Link href="/pledge" className="btn-outline">
             Take the Pledge
           </Link>
@@ -92,7 +92,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="btn-ghost -mr-2 p-2 lg:hidden"
+          className="btn-ghost -mr-2 p-2 xl:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -105,7 +105,7 @@ export default function Navbar() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-t border-teal-900/10 bg-white lg:hidden"
+          className="border-t border-teal-900/10 bg-white xl:hidden"
         >
           <ul className="container-content flex flex-col py-3">
             {navLinks.map((link) => (
