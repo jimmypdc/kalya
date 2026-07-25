@@ -238,6 +238,26 @@ Most copy lives in easy-to-edit data files so you rarely touch JSX:
 The original tributes have been preserved with their heart intact and only
 lightly polished for the web. Update authorship and wording here anytime.
 
+### Pledge Wall & live pledge count
+
+The `/pledge` page shows a **Pledge Wall** of recent pledges, and the headline
+stat tile on the Home and Impact pages shows a **live pledge count**.
+
+- Both read from Supabase server-side (`lib/pledges.ts`) and **fail soft**: with
+  no database configured, the tile shows a warm "Join a growing community"
+  message and the wall shows an inviting empty state — no errors.
+- Once pledges start coming in, the tile automatically flips to the real count
+  and the wall fills with first names. Pages revalidate every few minutes so the
+  numbers stay current.
+- **Privacy:** the wall only ever shows a pledger's **first name** (plus optional
+  city/state and their short message) — never full names or emails — and only
+  for people who left the "Add my first name to the public Pledge Wall" checkbox
+  ticked. That consent is stored in the `pledges.show_on_wall` column.
+
+> If you created the `pledges` table before the wall existed, run the
+> `ALTER TABLE ... add column show_on_wall` statement noted in
+> `supabase/schema.sql`.
+
 ---
 
 ## ♿ Accessibility & SEO

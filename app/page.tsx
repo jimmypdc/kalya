@@ -12,10 +12,17 @@ import StatGrid from '@/components/StatGrid';
 import SectionHeading from '@/components/SectionHeading';
 import PledgeForm from '@/components/PledgeForm';
 import TributeCard from '@/components/TributeCard';
-import { stats, kayla } from '@/lib/site';
+import { buildStats, kayla } from '@/lib/site';
+import { getPledgeCount } from '@/lib/pledges';
 import { poem, message } from '@/lib/tributes';
 
-export default function HomePage() {
+// Re-generate every 5 minutes so the live pledge count stays current
+// without making the page fully dynamic.
+export const revalidate = 300;
+
+export default async function HomePage() {
+  const stats = buildStats(await getPledgeCount());
+
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}

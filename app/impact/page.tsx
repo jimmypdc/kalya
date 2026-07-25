@@ -4,7 +4,11 @@ import { Quote, TrendingUp, Heart, Mail } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import SectionHeading from '@/components/SectionHeading';
 import StatGrid from '@/components/StatGrid';
-import { stats, siteConfig } from '@/lib/site';
+import { buildStats, siteConfig } from '@/lib/site';
+import { getPledgeCount } from '@/lib/pledges';
+
+// Keep the live pledge count fresh via periodic revalidation.
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Our Impact',
@@ -12,7 +16,9 @@ export const metadata: Metadata = {
     'The mission of the Kayla Marie Joiner Foundation — teen seatbelt safety and pediatric nursing scholarships — and the difference your support makes as this community grows.',
 };
 
-export default function ImpactPage() {
+export default async function ImpactPage() {
+  const stats = buildStats(await getPledgeCount());
+
   return (
     <>
       <PageHeader

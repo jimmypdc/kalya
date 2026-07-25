@@ -33,6 +33,8 @@ export default function PledgeForm({ compact = false }: PledgeFormProps) {
       city: String(data.get('city') ?? '').trim() || null,
       state: String(data.get('state') ?? '').trim() || null,
       message: String(data.get('message') ?? '').trim() || null,
+      // Checkbox is opt-out: present (checked) unless the user unticks it.
+      showOnWall: data.get('showOnWall') !== null,
     };
 
     if (!payload.name) {
@@ -172,6 +174,20 @@ export default function PledgeForm({ compact = false }: PledgeFormProps) {
           </div>
         )}
       </div>
+
+      {/* Public wall consent (opt-out). Only the first name is ever shown. */}
+      <label className="mt-5 flex cursor-pointer items-start gap-3 text-sm text-teal-700">
+        <input
+          type="checkbox"
+          name="showOnWall"
+          defaultChecked
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-900/30 text-teal-800 focus:ring-teal-500"
+        />
+        <span>
+          Add my <strong>first name</strong> to the public Pledge Wall. (We only
+          ever show your first name — never your email.)
+        </span>
+      </label>
 
       {status === 'error' && error && (
         <p role="alert" className="mt-4 text-sm text-red-600">

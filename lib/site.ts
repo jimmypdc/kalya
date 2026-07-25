@@ -93,3 +93,32 @@ export const safetyStats = [
 
 /** Suggested one-time donation amounts (USD). */
 export const donationPresets = [25, 50, 100, 250] as const;
+
+export interface Stat {
+  value: string;
+  label: string;
+  sub: string;
+}
+
+/**
+ * Returns the headline stats, replacing the final "You / join a growing
+ * community" tile with the REAL pledge count once pledges exist. Falls back to
+ * the warm invitation when the count is unavailable (DB not set up) or zero.
+ */
+export function buildStats(pledgeCount: number | null): Stat[] {
+  const arr: Stat[] = stats.map((s) => ({
+    value: s.value,
+    label: s.label,
+    sub: s.sub,
+  }));
+
+  if (pledgeCount && pledgeCount > 0) {
+    arr[arr.length - 1] = {
+      value: pledgeCount.toLocaleString('en-US'),
+      label: 'Pledges and counting',
+      sub: 'People promising to buckle up for Kayla',
+    };
+  }
+
+  return arr;
+}

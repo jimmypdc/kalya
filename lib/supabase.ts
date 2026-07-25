@@ -107,5 +107,6 @@ export interface Pledge {
   city: string | null;
   state: string | null;
   message: string | null;
+  show_on_wall: boolean;
   created_at: string;
 }

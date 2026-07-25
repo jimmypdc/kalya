@@ -21,6 +21,7 @@ export async function POST(request: Request) {
       city?: unknown;
       state?: unknown;
       message?: unknown;
+      showOnWall?: unknown;
     };
 
     const name = String(body.name ?? '').trim();
@@ -43,6 +44,8 @@ export async function POST(request: Request) {
       city: clip(body.city, 80),
       state: clip(body.state, 80),
       message: clip(body.message, 500),
+      // Opt-out consent: default to true unless explicitly set to false.
+      show_on_wall: body.showOnWall !== false,
     };
 
     const supabase = getServiceClient();

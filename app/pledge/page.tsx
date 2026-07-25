@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { Heart, Users, ShieldCheck, Share2 } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import PledgeForm from '@/components/PledgeForm';
+import PledgeWall from '@/components/PledgeWall';
+import SectionHeading from '@/components/SectionHeading';
 import { kayla } from '@/lib/site';
+import { getPledgeCount, getRecentPledges } from '@/lib/pledges';
 
 export const metadata: Metadata = {
   title: 'Take the Pledge',
@@ -10,7 +13,15 @@ export const metadata: Metadata = {
     'Take the Buckle Up for Kayla pledge — a three-second promise to always wear your seatbelt, in memory of Kayla Marie Joiner.',
 };
 
-export default function PledgePage() {
+// Refresh the wall & count regularly so new pledges appear.
+export const revalidate = 60;
+
+export default async function PledgePage() {
+  const [count, pledges] = await Promise.all([
+    getPledgeCount(),
+    getRecentPledges(30),
+  ]);
+
   return (
     <>
       <PageHeader
@@ -59,6 +70,20 @@ export default function PledgePage() {
           {/* Form */}
           <div>
             <PledgeForm />
+          </div>
+        </div>
+      </section>
+
+      {/* Pledge Wall */}
+      <section className="section bg-teal-50/50 pt-0 sm:pt-0">
+        <div className="container-content pt-16 sm:pt-24">
+          <SectionHeading
+            eyebrow="The Pledge Wall"
+            title="A growing community of promises"
+            description="Every name here is a promise to come home safe. Join them, and help us carry Kayla’s memory forward."
+          />
+          <div className="mt-12">
+            <PledgeWall pledges={pledges} count={count} />
           </div>
         </div>
       </section>

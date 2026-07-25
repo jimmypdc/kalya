@@ -58,17 +58,23 @@ create index if not exists subscriptions_donor_id_idx
 
 -- ── pledges (Buckle Up Pledge form submissions) ──────────────────────────────
 create table if not exists public.pledges (
-  id         uuid primary key default gen_random_uuid(),
-  name       text not null,
-  email      text,
-  city       text,
-  state      text,
-  message    text,
-  created_at timestamptz not null default now()
+  id           uuid primary key default gen_random_uuid(),
+  name         text not null,
+  email        text,
+  city         text,
+  state        text,
+  message      text,
+  -- Consent to display first name on the public Pledge Wall (opt-out checkbox).
+  show_on_wall boolean not null default true,
+  created_at   timestamptz not null default now()
 );
 
 create index if not exists pledges_created_at_idx
   on public.pledges (created_at desc);
+
+-- If you already created the pledges table before this column existed, run:
+--   alter table public.pledges
+--     add column if not exists show_on_wall boolean not null default true;
 
 -- ── Row Level Security ───────────────────────────────────────────────────────
 -- Enable RLS with no policies: the anon/public key gets no access. The
