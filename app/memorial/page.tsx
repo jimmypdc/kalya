@@ -36,7 +36,7 @@ export default async function MemorialPage() {
           <SectionHeading
             eyebrow="Her light"
             title="A life full of love"
-            description="Every photo holds a moment we hold onto. (Placeholder images for now — real photos of Kayla can be added anytime.)"
+            description="Every photo holds a moment we hold onto — a smile, a memory, a piece of the light Kayla brought to everyone around her."
           />
           <div className="mt-12">
             <PhotoGallery />

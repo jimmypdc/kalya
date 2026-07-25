@@ -1,18 +1,19 @@
 Photos of Kayla
 ===============
 
-Place Kayla's photos in this folder.
+Any image you place in THIS folder automatically appears in the photo gallery
+on the Memorial page (/memorial). No code changes needed — just add files and
+redeploy.
 
-The Story page (/story) loads its portrait from:
+  - Supported types: .jpg .jpeg .png .webp .avif .gif
+  - Photos show in alphabetical order by filename. To control the order,
+    prefix names with numbers, e.g.:
+        01-portrait.jpg
+        02-with-friends.jpg
+        03-family.jpg
 
-    kayla-portrait.jpg   <-- add the necklace/crucifix photo here
+Special file:
+  kayla-portrait.jpg  — also used as the Story-page portrait and the social
+                        share (Open Graph) image. Keep this filename.
 
-Save the image with EXACTLY that filename (kayla-portrait.jpg) in this
-folder and it will appear automatically. No code changes needed.
-
-If your photo is a .png instead of .jpg, either:
-  - rename/export it to kayla-portrait.jpg, OR
-  - update the `portrait` src in components/KaylaImage.tsx to match.
-
-Other placeholder images across the site can be swapped the same way —
-see the comments at the top of components/KaylaImage.tsx.
+Tip: web-friendly photos are ~1200px on the long edge and under ~500 KB each.
