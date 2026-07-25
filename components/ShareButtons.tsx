@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Facebook, Twitter, Mail, Link2, Check, Share2 } from 'lucide-react';
 
 interface ShareButtonsProps {
@@ -24,6 +24,12 @@ export default function ShareButtons({
   className = '',
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  // Only enable the native share sheet AFTER mount. `navigator.share` is
+  // undefined during server render, so deciding at render time would produce a
+  // server/client HTML mismatch (hydration error). Gating on `mounted` keeps
+  // the first client render identical to the server, then reveals it.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Resolve the URL at click time so it works regardless of where it's used.
   const getUrl = () =>
@@ -75,7 +81,7 @@ export default function ShareButtons({
   }
 
   const canNativeShare =
-    typeof navigator !== 'undefined' && 'share' in navigator;
+    mounted && typeof navigator !== 'undefined' && 'share' in navigator;
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
