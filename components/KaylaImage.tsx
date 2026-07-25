@@ -24,8 +24,9 @@ const PLACEHOLDERS: Record<Variant, { src: string; alt: string }> = {
     alt: 'Placeholder — replace with a photo of Kayla Marie Joiner',
   },
   portrait: {
-    src: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=900&q=80',
-    alt: 'Placeholder portrait — replace with a photo of Kayla',
+    // Real photo of Kayla. File lives in /public/kayla/kayla-portrait.jpg
+    src: '/kayla/kayla-portrait.jpg',
+    alt: 'Kayla Marie Joiner, smiling and wearing a gold crucifix necklace',
   },
   candid: {
     src: 'https://images.unsplash.com/photo-1516534775068-ba3e7458af70?auto=format&fit=crop&w=1000&q=80',
