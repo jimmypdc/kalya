@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { Heart } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import SectionHeading from '@/components/SectionHeading';
+import Tabs from '@/components/Tabs';
 import PhotoGallery from '@/components/PhotoGallery';
+import EventsList from '@/components/EventsList';
 import MemoryForm from '@/components/MemoryForm';
 import MemoryWall from '@/components/MemoryWall';
 import { kayla } from '@/lib/site';
@@ -30,16 +32,29 @@ export default async function MemorialPage() {
         description={`${kayla.born} — ${kayla.passed}. A place to remember Kayla — her smile, her spirit, and the way she made everyone feel they belonged. Look through her photos, and leave a memory below.`}
       />
 
-      {/* Photo gallery */}
+      {/* Photos + Recent Events tabs */}
       <section className="section">
         <div className="container-content">
           <SectionHeading
             eyebrow="Her light"
             title="A life full of love"
-            description="Every photo holds a moment we hold onto — a smile, a memory, a piece of the light Kayla brought to everyone around her."
+            description="Every photo holds a moment we hold onto — and every event carries Kayla’s mission forward. Explore both below."
           />
           <div className="mt-12">
-            <PhotoGallery />
+            <Tabs
+              tabs={[
+                {
+                  id: 'photos',
+                  label: 'Photos of Kayla',
+                  content: <PhotoGallery />,
+                },
+                {
+                  id: 'events',
+                  label: 'Recent Events',
+                  content: <EventsList />,
+                },
+              ]}
+            />
           </div>
         </div>
       </section>
