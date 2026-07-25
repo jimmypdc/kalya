@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { access } from 'node:fs/promises';
+import { join } from 'node:path';
 import { ShieldCheck, AlertTriangle, Clock, Users, Heart } from 'lucide-react';
 import PageHeader from '@/components/PageHeader';
 import SectionHeading from '@/components/SectionHeading';
@@ -12,7 +15,23 @@ export const metadata: Metadata = {
     'Teen seatbelt safety saves lives. Learn the facts, take the three-second habit seriously, and join the Buckle Up for Kayla movement.',
 };
 
-export default function BuckleUpPage() {
+// The campaign poster section renders only when the image file is present, so
+// nothing looks broken before it's added. To show it, add the poster at:
+//   public/kayla/buckle-up-poster.jpg
+const POSTER_PATH = '/kayla/buckle-up-poster.jpg';
+
+async function posterExists(): Promise<boolean> {
+  try {
+    await access(join(process.cwd(), 'public', 'kayla', 'buckle-up-poster.jpg'));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export default async function BuckleUpPage() {
+  const hasPoster = await posterExists();
+
   return (
     <>
       <PageHeader
@@ -87,6 +106,51 @@ export default function BuckleUpPage() {
           </p>
         </div>
       </section>
+
+      {/* National campaign poster (renders only when the file exists) */}
+      {hasPoster && (
+        <section className="section pt-0">
+          <div className="container-content">
+            <div className="grid items-center gap-10 lg:grid-cols-2">
+              <div>
+                <SectionHeading
+                  align="left"
+                  eyebrow="A national campaign"
+                  title="Kayla's story, shared to save lives"
+                  description="Kayla was featured in the “Seat Belts Save Lives” campaign alongside other Florida teens — created with the Florida Pediatric Society, the American Academy of Pediatrics, and News Channel 8."
+                />
+                <p className="mt-6 text-teal-700">
+                  Four teens. One survivor. The poster asks the question that
+                  sits at the heart of everything we do:{' '}
+                  <strong className="text-teal-900">
+                    which one will you be?
+                  </strong>{' '}
+                  A seatbelt is the difference between a statistic and a story
+                  that gets to continue.
+                </p>
+                <Link href="/pledge" className="btn-accent mt-8">
+                  Take the Pledge
+                  <Heart className="h-4 w-4" aria-hidden />
+                </Link>
+              </div>
+
+              <figure className="mx-auto w-full max-w-md">
+                <Image
+                  src={POSTER_PATH}
+                  alt="“Seat Belts Save Lives” campaign poster featuring Kayla Joiner and three other Florida teens — only one of whom survived a crash."
+                  width={1050}
+                  height={1500}
+                  sizes="(min-width: 1024px) 28rem, 100vw"
+                  className="h-auto w-full rounded-2xl shadow-xl ring-1 ring-teal-900/10"
+                />
+                <figcaption className="mt-3 text-center text-xs text-teal-500">
+                  Public safety campaign poster. Kayla Joiner, Parkland, FL.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Safe driving habits */}
       <section className="section">

@@ -12,8 +12,11 @@ redeploy.
         02-with-friends.jpg
         03-family.jpg
 
-Special file:
-  kayla-portrait.jpg  — also used as the Story-page portrait and the social
-                        share (Open Graph) image. Keep this filename.
+Special files (keep these exact names):
+  kayla-portrait.jpg      — Story-page portrait + social share (Open Graph)
+                            image, and the first gallery tile.
+  buckle-up-poster.jpg    — the "Seat Belts Save Lives" campaign poster.
+                            When present, it's featured on the /buckle-up page
+                            (shown in full, not in the gallery grid).
 
 Tip: web-friendly photos are ~1200px on the long edge and under ~500 KB each.

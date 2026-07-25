@@ -60,8 +60,10 @@ const placeholders: Photo[] = [
 async function loadPhotos(): Promise<Photo[]> {
   try {
     const dir = join(process.cwd(), 'public', 'kayla');
+    // The campaign poster is shown in full on /buckle-up, not in this grid.
+    const EXCLUDE = new Set(['buckle-up-poster.jpg']);
     const files = (await readdir(dir))
-      .filter((f) => IMAGE_EXT.test(f))
+      .filter((f) => IMAGE_EXT.test(f) && !EXCLUDE.has(f.toLowerCase()))
       // Keep the portrait first (it's also the Story/share image); the rest
       // follow in alphabetical order — prefix names with numbers to arrange.
       .sort((a, b) => {
