@@ -23,8 +23,10 @@ interface Photo {
 
 const photos: Photo[] = [
   {
-    src: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=800&q=80',
-    alt: 'Placeholder — replace with a photo of Kayla',
+    // Real photo of Kayla. Add more real photos to public/kayla/gallery/ and
+    // replace the placeholders below.
+    src: '/kayla/kayla-portrait.jpg',
+    alt: 'Kayla Marie Joiner, smiling and wearing a gold crucifix necklace',
     tall: true,
   },
   {
