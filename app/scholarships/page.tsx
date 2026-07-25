@@ -43,9 +43,9 @@ export default function ScholarshipsPage() {
               description="Each year, we award scholarships to students pursuing a degree in nursing — with a special place in our hearts for those drawn to pediatric care, just as Kayla was."
             />
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              <MiniStat value="$2,500" label="Typical award" />
               <MiniStat value="Annual" label="Application cycle" />
-              <MiniStat value="Pediatric" label="Nursing focus" />
+              <MiniStat value="Nursing" label="Field of study" />
+              <MiniStat value="Pediatric" label="Special focus" />
             </div>
             <p className="mt-6 text-teal-700">
               Awards are made possible entirely through donations to the

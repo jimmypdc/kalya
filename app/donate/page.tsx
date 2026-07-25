@@ -55,9 +55,9 @@ export default function DonatePage() {
             </div>
 
             <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-              <Figure value="$25" label="Safety materials for a classroom" />
-              <Figure value="$100" label="Sponsors a school assembly" />
-              <Figure value="$2,500" label="Names a scholarship award" />
+              <Figure value="$25" label="Helps provide safety materials for students" />
+              <Figure value="$100" label="Helps sponsor a school assembly" />
+              <Figure value="$2,500" label="Helps fund a student's scholarship" />
             </div>
           </div>
 

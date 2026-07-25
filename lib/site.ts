@@ -33,27 +33,34 @@ export const navLinks = [
   { href: '/get-involved', label: 'Get Involved' },
 ] as const;
 
-/** Headline statistics. Sources noted so they can be refreshed over time. */
+/**
+ * Headline figures. These are intentionally NOT fabricated foundation metrics
+ * (pledge counts, dollars raised, etc.) — they're true, verifiable facts about
+ * seatbelt safety and Kayla's story, plus a warm invitation to join.
+ *
+ * Once you have real numbers, you can swap any of these for genuine metrics
+ * like pledges taken or scholarships awarded.
+ */
 export const stats = [
   {
-    value: '2,500+',
-    label: 'Pledges to buckle up',
-    sub: 'Teens & families committed to the cause',
+    value: '3 sec',
+    label: 'To buckle up',
+    sub: 'The simplest habit that saves lives',
   },
   {
-    value: '$185K',
-    label: 'In scholarships awarded',
-    sub: 'Supporting future pediatric nurses',
+    value: '45%',
+    label: 'Lower risk of fatal injury',
+    sub: 'For belted front-seat passengers (CDC)',
   },
   {
-    value: '40+',
-    label: 'Schools reached',
-    sub: 'Safety assemblies & campaigns',
+    value: '16',
+    label: "Years of Kayla's life",
+    sub: '1991–2007 — the reason we exist',
   },
   {
-    value: '1',
-    label: 'Life that changed everything',
-    sub: 'And a mission that carries her forward',
+    value: 'You',
+    label: 'Complete the mission',
+    sub: 'Join a growing community honoring Kayla',
   },
 ] as const;
 

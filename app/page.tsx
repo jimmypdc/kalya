@@ -92,9 +92,9 @@ export default function HomePage() {
       <section className="section bg-teal-50/50">
         <div className="container-content">
           <SectionHeading
-            eyebrow="Her legacy in numbers"
+            eyebrow="Why we're here"
             title="One life. A lasting mission."
-            description="Every pledge, every dollar, and every conversation carries Kayla’s memory forward — and helps another family avoid the heartbreak ours knows too well."
+            description="A three-second habit, a family's love, and a community coming together — every pledge and every gift carries Kayla’s memory forward, and helps another family avoid the heartbreak ours knows too well."
           />
           <div className="mt-12">
             <StatGrid stats={stats} />
