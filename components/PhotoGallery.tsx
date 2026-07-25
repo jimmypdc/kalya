@@ -62,7 +62,13 @@ async function loadPhotos(): Promise<Photo[]> {
     const dir = join(process.cwd(), 'public', 'kayla');
     const files = (await readdir(dir))
       .filter((f) => IMAGE_EXT.test(f))
-      .sort((a, b) => a.localeCompare(b));
+      // Keep the portrait first (it's also the Story/share image); the rest
+      // follow in alphabetical order — prefix names with numbers to arrange.
+      .sort((a, b) => {
+        if (a === 'kayla-portrait.jpg') return -1;
+        if (b === 'kayla-portrait.jpg') return 1;
+        return a.localeCompare(b);
+      });
 
     return files.map((file, i) => ({
       src: `/kayla/${file}`,
