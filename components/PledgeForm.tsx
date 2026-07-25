@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { CheckCircle2, Loader2, ShieldCheck } from 'lucide-react';
+import ShareButtons from '@/components/ShareButtons';
 
 interface PledgeFormProps {
   /** Compact layout (used inside the home hero) vs. full page card. */
@@ -33,6 +34,8 @@ export default function PledgeForm({ compact = false }: PledgeFormProps) {
       city: String(data.get('city') ?? '').trim() || null,
       state: String(data.get('state') ?? '').trim() || null,
       message: String(data.get('message') ?? '').trim() || null,
+      // Checkbox is opt-out: present (checked) unless the user unticks it.
+      showOnWall: data.get('showOnWall') !== null,
     };
 
     if (!payload.name) {
@@ -78,6 +81,19 @@ export default function PledgeForm({ compact = false }: PledgeFormProps) {
           You&apos;ve joined thousands of others who promise to always buckle up —
           for yourself, for the people who love you, and in memory of Kayla.
         </p>
+        {/* Challenge friends — sharing multiplies the impact. */}
+        <div className="mt-6 w-full border-t border-teal-900/10 pt-6">
+          <p className="text-sm font-semibold text-teal-900">
+            Challenge 3 friends to pledge too:
+          </p>
+          <div className="mt-3 flex justify-center">
+            <ShareButtons
+              title="I took the Buckle Up for Kayla pledge"
+              text="I just pledged to always buckle up, in memory of Kayla Marie Joiner. Will you take the pledge too?"
+            />
+          </div>
+        </div>
+
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <a href="/story" className="btn-outline">
             Read Kayla&apos;s Story
@@ -172,6 +188,20 @@ export default function PledgeForm({ compact = false }: PledgeFormProps) {
           </div>
         )}
       </div>
+
+      {/* Public wall consent (opt-out). Only the first name is ever shown. */}
+      <label className="mt-5 flex cursor-pointer items-start gap-3 text-sm text-teal-700">
+        <input
+          type="checkbox"
+          name="showOnWall"
+          defaultChecked
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-900/30 text-teal-800 focus:ring-teal-500"
+        />
+        <span>
+          Add my <strong>first name</strong> to the public Pledge Wall. (We only
+          ever show your first name — never your email.)
+        </span>
+      </label>
 
       {status === 'error' && error && (
         <p role="alert" className="mt-4 text-sm text-red-600">

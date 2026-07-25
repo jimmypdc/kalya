@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/pledge',
     '/donate',
     '/get-involved',
+    '/privacy',
   ];
 
   // Static date keeps builds deterministic; update on meaningful content changes.
