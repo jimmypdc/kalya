@@ -94,11 +94,22 @@ export default function Footer() {
           <p>
             © {year} {siteConfig.name}. All rights reserved.
           </p>
-          <p className="flex items-center gap-1.5">
-            Made with{' '}
-            <Heart className="h-3.5 w-3.5 fill-gold-400 text-gold-400" aria-hidden />{' '}
-            in Kayla&apos;s memory.
-          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="text-teal-300 transition-colors hover:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <p className="flex items-center gap-1.5">
+              Made with{' '}
+              <Heart
+                className="h-3.5 w-3.5 fill-gold-400 text-gold-400"
+                aria-hidden
+              />{' '}
+              in Kayla&apos;s memory.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
