@@ -279,9 +279,10 @@ the branded Open Graph image automatically.
 
 A photo gallery plus a "leave a memory" guestbook.
 
-- **Photos:** `components/PhotoGallery.tsx` uses labeled placeholder images.
-  Add real photos to `public/kayla/gallery/` and update the `src`/`alt` entries
-  (instructions are in the file).
+- **Photos:** the gallery auto-discovers images in `public/kayla/` — just drop
+  photo files into that folder and they appear (alphabetical by filename;
+  prefix with numbers like `01-…`, `02-…` to control order). Labeled
+  placeholders show only while the folder has no real photos.
 - **Guestbook:** visitors submit memories via `/api/memories` into the
   `memories` table. **Entries are held for review** (`approved = false`) and only
   appear on the wall once approved — this keeps the memorial safe from spam.
