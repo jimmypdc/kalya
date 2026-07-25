@@ -1,23 +1,32 @@
 /**
  * Recent events for the memorial page's "Recent Events" tab.
  *
- * Seeded from the foundation's historical records (buckleup4kayla.org).
- * Edit this list to add or update events. To attach photos to an event, drop
- * image files into:  public/kayla/events/<slug>/   — they appear automatically.
+ * HOW EVENTS WORK
+ * ───────────────────────────────────────────────────────────────
+ * The events tab AUTO-DISCOVERS every folder inside public/kayla/events/.
+ * Each folder becomes an event, and the images in it become that event's
+ * photos. So to add an event, just create a folder and drop photos in — you
+ * can name it like "Title - YEAR" (e.g. "Jersey Shore - 2008") and the tab
+ * will show that title and year automatically.
+ *
+ * The list below is OPTIONAL enrichment: for any folder whose name matches a
+ * `slug` here, we use this richer title / date / location / highlight /
+ * description instead of the folder name. Edit freely.
+ * ───────────────────────────────────────────────────────────────
  */
 
 export interface FoundationEvent {
-  /** Folder name under public/kayla/events/ for this event's photos. */
+  /** Must match the folder name under public/kayla/events/ exactly. */
   slug: string;
   title: string;
   date: string;
   location?: string;
   /** Short highlight, e.g. an amount raised or awarded. */
   highlight?: string;
-  description: string;
+  description?: string;
 }
 
-// Newest first.
+// Order here breaks ties when two events share the same year (newest first).
 export const events: FoundationEvent[] = [
   {
     slug: 'carwash-2008',
@@ -27,6 +36,14 @@ export const events: FoundationEvent[] = [
     highlight: '$628 raised',
     description:
       'Volunteers came together for a community car wash that raised $628 for the foundation — all while spreading the "Buckle Up" message to everyone who stopped by.',
+  },
+  {
+    slug: 'Jersey Shore - 2008',
+    title: 'A Day at the Jersey Shore',
+    date: '2008',
+    location: 'Jersey Shore',
+    description:
+      "Family and friends gathered at the Jersey Shore for a day in Kayla's honor — sharing memories, laughter, and the kind of togetherness she always brought out in the people around her.",
   },
   {
     slug: 'scholarships-2008',
@@ -44,6 +61,13 @@ export const events: FoundationEvent[] = [
     location: "Kayla's memorial site",
     description:
       "For Kayla's birthday, a memorial plaque was placed in the ocean at her memorial site — a lasting tribute that lets her family and friends feel close to her.",
+  },
+  {
+    slug: 'American Heart Association Walk - 2007',
+    title: 'American Heart Association Walk',
+    date: '2007',
+    description:
+      "Kayla's family and friends came together for the American Heart Association Walk, stepping out side by side in her memory and carrying her spirit into the community.",
   },
   {
     slug: 'foundation-launch-2007',
