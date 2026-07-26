@@ -27,9 +27,10 @@ export default function StoryPage() {
       {/* Life story */}
       <section className="section">
         <div className="container-content grid items-start gap-12 lg:grid-cols-2">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-3xl shadow-xl ring-1 ring-teal-900/10 lg:sticky lg:top-24">
-            {/* PLACEHOLDER — swap in a real portrait of Kayla. */}
-            <KaylaImage variant="portrait" sizes="(min-width: 1024px) 28rem, 100vw" />
+          {/* Sized close to the photo's native resolution (240x320) so it stays
+              sharp. If a higher-res scan is added later, max-w can grow again. */}
+          <div className="relative mx-auto aspect-[3/4] w-full max-w-xs overflow-hidden rounded-3xl shadow-xl ring-1 ring-teal-900/10 lg:sticky lg:top-24">
+            <KaylaImage variant="portrait" sizes="20rem" />
           </div>
 
           <div className="prose-teal max-w-none space-y-6 text-lg leading-relaxed text-teal-800">

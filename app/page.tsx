@@ -87,9 +87,10 @@ export default async function HomePage() {
               </Link>
               <Link
                 href="/story"
-                className="btn-ghost text-teal-100 hover:bg-white/10 hover:text-white"
+                className="inline-flex items-center gap-1.5 px-1 py-3 text-sm font-semibold text-teal-100 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
                 Read Kayla&apos;s Story
+                <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </div>
 

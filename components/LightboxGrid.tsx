@@ -7,22 +7,31 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 export interface LightboxPhoto {
   src: string;
   alt: string;
-  /** Renders a taller tile for masonry rhythm (gallery). */
+  /** Renders a taller tile in 'grid' layout. */
   tall?: boolean;
   priority?: boolean;
+  /** Intrinsic dimensions — required for the 'masonry' layout. */
+  width?: number;
+  height?: number;
 }
 
 /**
- * A responsive photo grid where clicking any photo opens it full-size in a
- * lightbox overlay, with keyboard (Esc / ← / →) and swipe-free arrow controls.
- * Used by both the memorial gallery and the Recent Events photos.
+ * A responsive photo collection where clicking any photo opens it full-size in
+ * a lightbox overlay, with keyboard (Esc / ← / →) and arrow controls.
+ *
+ * Layouts:
+ *  - 'masonry' (default for the memorial gallery): CSS columns that preserve
+ *    each photo's natural aspect ratio — no cropped faces.
+ *  - 'grid': uniform square tiles (used for compact event thumbnails).
  */
 export default function LightboxGrid({
   photos,
   sizes = '(min-width: 640px) 30vw, 45vw',
+  layout = 'grid',
 }: {
   photos: LightboxPhoto[];
   sizes?: string;
+  layout?: 'grid' | 'masonry';
 }) {
   const [index, setIndex] = useState<number | null>(null);
   const isOpen = index !== null;
@@ -55,28 +64,52 @@ export default function LightboxGrid({
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-        {photos.map((photo, i) => (
-          <button
-            type="button"
-            key={photo.src}
-            onClick={() => setIndex(i)}
-            aria-label="Open photo full size"
-            className={`group relative overflow-hidden rounded-2xl bg-teal-100 shadow-sm ring-1 ring-teal-900/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
-              photo.tall ? 'row-span-2 aspect-[3/4]' : 'aspect-square'
-            }`}
-          >
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              sizes={sizes}
-              priority={photo.priority}
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          </button>
-        ))}
-      </div>
+      {layout === 'masonry' ? (
+        <div className="columns-2 gap-3 sm:columns-3 sm:gap-4">
+          {photos.map((photo, i) => (
+            <button
+              type="button"
+              key={photo.src}
+              onClick={() => setIndex(i)}
+              aria-label="Open photo full size"
+              className="group mb-3 block w-full break-inside-avoid overflow-hidden rounded-2xl bg-teal-100 shadow-sm ring-1 ring-teal-900/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 sm:mb-4"
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width ?? 800}
+                height={photo.height ?? 600}
+                sizes={sizes}
+                priority={photo.priority}
+                className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+              />
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+          {photos.map((photo, i) => (
+            <button
+              type="button"
+              key={photo.src}
+              onClick={() => setIndex(i)}
+              aria-label="Open photo full size"
+              className={`group relative overflow-hidden rounded-2xl bg-teal-100 shadow-sm ring-1 ring-teal-900/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
+                photo.tall ? 'row-span-2 aspect-[3/4]' : 'aspect-square'
+              }`}
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes={sizes}
+                priority={photo.priority}
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </button>
+          ))}
+        </div>
+      )}
 
       {isOpen && current && (
         <div

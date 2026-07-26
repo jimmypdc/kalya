@@ -1,5 +1,6 @@
-import { readdir } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { imageSize } from 'image-size';
 import LightboxGrid, { type LightboxPhoto } from '@/components/LightboxGrid';
 
 /**
@@ -20,11 +21,7 @@ import LightboxGrid, { type LightboxPhoto } from '@/components/LightboxGrid';
 
 const IMAGE_EXT = /\.(jpe?g|png|webp|avif|gif)$/i;
 
-interface Photo {
-  src: string;
-  alt: string;
-  tall?: boolean;
-}
+type Photo = LightboxPhoto;
 
 // Fallback placeholders (used only when no real photos exist yet).
 const placeholders: Photo[] = [
@@ -72,12 +69,28 @@ async function loadPhotos(): Promise<Photo[]> {
         return a.localeCompare(b);
       });
 
-    return files.map((file, i) => ({
-      src: `/kayla/${file}`,
-      alt: 'A cherished photo of Kayla Marie Joiner',
-      // Give a couple of tiles extra height for visual rhythm.
-      tall: i % 5 === 0,
-    }));
+    // Read each photo's intrinsic dimensions so the masonry layout can
+    // preserve its natural aspect ratio (no cropped faces).
+    return Promise.all(
+      files.map(async (file, i): Promise<Photo> => {
+        let width: number | undefined;
+        let height: number | undefined;
+        try {
+          const dims = imageSize(await readFile(join(dir, file)));
+          width = dims.width;
+          height = dims.height;
+        } catch {
+          // Unreadable dimensions — the layout falls back to a 4:3 box.
+        }
+        return {
+          src: `/kayla/${file}`,
+          alt: 'A cherished photo of Kayla Marie Joiner',
+          width,
+          height,
+          priority: i === 0,
+        };
+      }),
+    );
   } catch {
     return [];
   }
@@ -85,20 +98,18 @@ async function loadPhotos(): Promise<Photo[]> {
 
 export default async function PhotoGallery() {
   const real = await loadPhotos();
-  const photos = real.length > 0 ? real : placeholders;
   const usingPlaceholders = real.length === 0;
-
-  // Click any photo to open it full-size in the lightbox.
-  const lightboxPhotos: LightboxPhoto[] = photos.map((photo, i) => ({
-    src: photo.src,
-    alt: photo.alt,
-    tall: photo.tall,
-    priority: i === 0,
-  }));
+  const photos: LightboxPhoto[] = usingPlaceholders ? placeholders : real;
 
   return (
     <div>
-      <LightboxGrid photos={lightboxPhotos} sizes="(min-width: 640px) 30vw, 45vw" />
+      {/* Real photos: masonry preserves each photo's own shape. Placeholders
+          (remote stock, unknown dimensions) fall back to the uniform grid. */}
+      <LightboxGrid
+        photos={photos}
+        sizes="(min-width: 640px) 30vw, 45vw"
+        layout={usingPlaceholders ? 'grid' : 'masonry'}
+      />
 
       {usingPlaceholders && (
         <p className="mt-4 text-center text-xs text-teal-500">

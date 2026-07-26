@@ -44,18 +44,20 @@ const config: Config = {
         content: '72rem',
       },
       keyframes: {
+        // Subtle & fast: headlines are the most important content on the
+        // page, so they should be readable almost immediately.
         'fade-up': {
-          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '0%': { opacity: '0.01', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'fade-in': {
-          '0%': { opacity: '0' },
+          '0%': { opacity: '0.01' },
           '100%': { opacity: '1' },
         },
       },
       animation: {
-        'fade-up': 'fade-up 0.6s ease-out both',
-        'fade-in': 'fade-in 0.8s ease-out both',
+        'fade-up': 'fade-up 0.3s ease-out both',
+        'fade-in': 'fade-in 0.4s ease-out both',
       },
     },
   },
