@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { access } from 'node:fs/promises';
+import { join } from 'node:path';
 import {
   ArrowRight,
   Heart,
@@ -20,8 +23,23 @@ import { poem, message } from '@/lib/tributes';
 // without making the page fully dynamic.
 export const revalidate = 300;
 
+// Custom hero image: drop a file at public/hero.jpg to use it. Until then, the
+// placeholder is shown — so the landing page never has a broken image.
+const HERO_SRC = '/hero.jpg';
+async function heroExists(): Promise<boolean> {
+  try {
+    await access(join(process.cwd(), 'public', 'hero.jpg'));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export default async function HomePage() {
-  const stats = buildStats(await getPledgeCount());
+  const [stats, hasHero] = await Promise.all([
+    getPledgeCount().then(buildStats),
+    heroExists(),
+  ]);
 
   return (
     <>
@@ -83,8 +101,23 @@ export default async function HomePage() {
           {/* Hero image */}
           <div className="animate-fade-in">
             <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-3xl ring-4 ring-white/10 shadow-2xl">
-              {/* PLACEHOLDER — swap in a favorite photo of Kayla. See KaylaImage.tsx */}
-              <KaylaImage variant="hero" priority sizes="(min-width: 1024px) 28rem, 100vw" />
+              {/* Uses public/hero.jpg when present; otherwise a placeholder. */}
+              {hasHero ? (
+                <Image
+                  src={HERO_SRC}
+                  alt="Friends together at sunset, arms raised — hope, friendship, and remembrance"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 28rem, 100vw"
+                  className="object-cover"
+                />
+              ) : (
+                <KaylaImage
+                  variant="hero"
+                  priority
+                  sizes="(min-width: 1024px) 28rem, 100vw"
+                />
+              )}
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-teal-950/80 to-transparent p-6">
                 <p className="font-serif text-lg italic text-white">
                   &ldquo;Her love is everywhere.&rdquo;

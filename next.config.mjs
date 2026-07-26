@@ -5,6 +5,7 @@ const nextConfig = {
   // time (via fs). Ensure those files are bundled with the server function so
   // the directory read also works at runtime on serverless hosts (Vercel).
   outputFileTracingIncludes: {
+    '/': ['./public/hero.jpg'],
     '/memorial': ['./public/kayla/**/*'],
   },
   images: {
