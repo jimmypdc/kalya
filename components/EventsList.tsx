@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { CalendarDays, MapPin, Sparkles } from 'lucide-react';
 import { events, type FoundationEvent } from '@/lib/events';
+import LightboxGrid from '@/components/LightboxGrid';
 
 /**
  * "Recent Events" timeline for the memorial page.
@@ -154,21 +154,14 @@ function EventCard({ event }: { event: ResolvedEvent }) {
       )}
 
       {event.photos.length > 0 && (
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {event.photos.map((src) => (
-            <div
-              key={src}
-              className="relative aspect-square overflow-hidden rounded-xl bg-teal-100 ring-1 ring-teal-900/10"
-            >
-              <Image
-                src={src}
-                alt={`Photo from ${event.title}`}
-                fill
-                sizes="(min-width: 640px) 20vw, 45vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
+        <div className="mt-4">
+          <LightboxGrid
+            photos={event.photos.map((src) => ({
+              src,
+              alt: `Photo from ${event.title}`,
+            }))}
+            sizes="(min-width: 640px) 20vw, 45vw"
+          />
         </div>
       )}
     </article>

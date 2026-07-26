@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import LightboxGrid, { type LightboxPhoto } from '@/components/LightboxGrid';
 
 /**
  * MEMORIAL PHOTO GALLERY (auto-discovering)
@@ -88,29 +88,17 @@ export default async function PhotoGallery() {
   const photos = real.length > 0 ? real : placeholders;
   const usingPlaceholders = real.length === 0;
 
+  // Click any photo to open it full-size in the lightbox.
+  const lightboxPhotos: LightboxPhoto[] = photos.map((photo, i) => ({
+    src: photo.src,
+    alt: photo.alt,
+    tall: photo.tall,
+    priority: i === 0,
+  }));
+
   return (
     <div>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {photos.map((photo, i) => (
-          <figure
-            key={photo.src}
-            className={`group relative overflow-hidden rounded-2xl bg-teal-100 shadow-sm ring-1 ring-teal-900/10 ${
-              photo.tall ? 'row-span-2 aspect-[3/4]' : 'aspect-square'
-            }`}
-          >
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              sizes="(min-width: 640px) 30vw, 45vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              // Real photos live under /public and don't need optimization config;
-              // priority the first image for a fast first paint.
-              priority={i === 0}
-            />
-          </figure>
-        ))}
-      </div>
+      <LightboxGrid photos={lightboxPhotos} sizes="(min-width: 640px) 30vw, 45vw" />
 
       {usingPlaceholders && (
         <p className="mt-4 text-center text-xs text-teal-500">
