@@ -36,10 +36,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b transition-colors duration-200 ${
+      className={`sticky top-0 z-50 w-full border-b transition-all duration-200 ${
         scrolled
-          ? 'border-teal-900/10 bg-white/95 shadow-sm backdrop-blur'
-          : 'border-transparent bg-white/80 backdrop-blur'
+          ? 'border-teal-900/10 bg-white/95 shadow-md backdrop-blur'
+          : 'border-transparent bg-white/80 backdrop-blur-sm'
       }`}
     >
       <nav

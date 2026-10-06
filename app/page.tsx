@@ -15,6 +15,8 @@ import StatGrid from '@/components/StatGrid';
 import SectionHeading from '@/components/SectionHeading';
 import PledgeForm from '@/components/PledgeForm';
 import TributeCard from '@/components/TributeCard';
+import ButterflyDecoration from '@/components/ButterflyDecoration';
+import FlowerDecoration from '@/components/FlowerDecoration';
 import { buildStats, kayla } from '@/lib/site';
 import { getPledgeCount } from '@/lib/pledges';
 import { poem, message } from '@/lib/tributes';
@@ -177,8 +179,17 @@ export default async function HomePage() {
       </section>
 
       {/* ── Tributes preview ─────────────────────────────────── */}
-      <section className="section bg-teal-50/50">
-        <div className="container-content">
+      <section className="section relative overflow-hidden bg-gradient-to-br from-teal-50/30 via-white to-teal-50/50">
+        <ButterflyDecoration
+          size={90}
+          className="absolute left-8 top-16 text-gold-400/8"
+        />
+        <ButterflyDecoration
+          size={70}
+          className="absolute right-12 bottom-20 text-teal-900/5"
+        />
+        
+        <div className="container-content relative z-10">
           <SectionHeading
             eyebrow="In her own community's words"
             title="How Kayla is remembered"
@@ -198,8 +209,13 @@ export default async function HomePage() {
       </section>
 
       {/* ── Pledge ───────────────────────────────────────────── */}
-      <section className="section">
-        <div className="container-content grid items-center gap-12 lg:grid-cols-2">
+      <section className="section relative">
+        <FlowerDecoration
+          size={110}
+          className="absolute right-4 top-8 text-teal-900/4"
+        />
+        
+        <div className="container-content relative z-10 grid items-center gap-12 lg:grid-cols-2">
           <div>
             <SectionHeading
               align="left"
@@ -230,8 +246,17 @@ export default async function HomePage() {
       </section>
 
       {/* ── Impact CTA ───────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-teal-900 text-white">
-        <div className="container-content grid items-center gap-10 py-16 lg:grid-cols-5 lg:py-20">
+      <section className="relative overflow-hidden bg-gradient-to-br from-teal-950 via-teal-900 to-teal-900 text-white">
+        <ButterflyDecoration
+          size={100}
+          className="absolute left-12 top-12 text-white/5"
+        />
+        <ButterflyDecoration
+          size={80}
+          className="absolute right-16 bottom-16 text-gold-400/10"
+        />
+        
+        <div className="container-content relative z-10 grid items-center gap-10 py-16 lg:grid-cols-5 lg:py-20">
           <div className="lg:col-span-3">
             <Quote className="h-10 w-10 text-gold-400" aria-hidden />
             <blockquote className="mt-4 font-serif text-2xl font-medium leading-relaxed sm:text-3xl">
