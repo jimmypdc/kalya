@@ -5,9 +5,11 @@
 export default function FlowerDecoration({
   className = '',
   size = 24,
+  style,
 }: {
   className?: string;
   size?: number;
+  style?: React.CSSProperties;
 }) {
   return (
     <svg
@@ -16,6 +18,7 @@ export default function FlowerDecoration({
       width={size}
       height={size}
       className={className}
+      style={style}
       aria-hidden="true"
       fill="currentColor"
     >
