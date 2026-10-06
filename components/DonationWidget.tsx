@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Heart, Loader2, Repeat, Gift } from 'lucide-react';
+import { Heart, Loader2, Repeat, Gift, AlertCircle } from 'lucide-react';
 import { donationPresets } from '@/lib/site';
+import ButterflyDecoration from './ButterflyDecoration';
 
 type Mode = 'payment' | 'subscription';
 
@@ -22,10 +23,17 @@ export default function DonationWidget() {
   async function donate() {
     setError(null);
     const value = Number(effectiveAmount);
+    
+    // Enhanced validation
     if (!Number.isFinite(value) || value < 1) {
       setError('Please enter an amount of at least $1.');
       return;
     }
+    if (value > 50000) {
+      setError('For donations over $50,000, please contact us directly.');
+      return;
+    }
+    
     setLoading(true);
     try {
       const res = await fetch('/api/create-checkout-session', {
@@ -39,16 +47,22 @@ export default function DonationWidget() {
       }
       window.location.href = data.url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong.');
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setLoading(false);
     }
   }
 
   return (
-    <div className="rounded-3xl border border-teal-900/10 bg-white p-6 shadow-lg sm:p-8">
+    <div className="group relative rounded-3xl border border-teal-900/10 bg-white p-6 shadow-lg transition-shadow hover:shadow-xl sm:p-8">
+      {/* Subtle decorative butterfly in corner */}
+      <ButterflyDecoration
+        size={40}
+        className="absolute right-4 top-4 text-teal-900/5 transition-opacity group-hover:opacity-100"
+      />
+      
       {/* Mode toggle */}
       <div
-        className="grid grid-cols-2 gap-1 rounded-full bg-teal-50 p-1"
+        className="relative z-10 grid grid-cols-2 gap-1 rounded-full bg-teal-50 p-1"
         role="tablist"
         aria-label="Donation frequency"
       >
@@ -56,8 +70,11 @@ export default function DonationWidget() {
           type="button"
           role="tab"
           aria-selected={mode === 'payment'}
-          onClick={() => setMode('payment')}
-          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors ${
+          onClick={() => {
+            setMode('payment');
+            setError(null);
+          }}
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all ${
             mode === 'payment'
               ? 'bg-teal-900 text-white shadow-sm'
               : 'text-teal-800 hover:bg-teal-100'
@@ -70,8 +87,11 @@ export default function DonationWidget() {
           type="button"
           role="tab"
           aria-selected={mode === 'subscription'}
-          onClick={() => setMode('subscription')}
-          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors ${
+          onClick={() => {
+            setMode('subscription');
+            setError(null);
+          }}
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all ${
             mode === 'subscription'
               ? 'bg-teal-900 text-white shadow-sm'
               : 'text-teal-800 hover:bg-teal-100'
@@ -139,17 +159,21 @@ export default function DonationWidget() {
       </div>
 
       {error && (
-        <p role="alert" className="mt-4 text-sm text-red-600">
-          {error}
-        </p>
+        <div
+          role="alert"
+          className="mt-4 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+        >
+          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" aria-hidden />
+          <span>{error}</span>
+        </div>
       )}
 
       {/* Submit */}
       <button
         type="button"
         onClick={donate}
-        disabled={loading}
-        className="btn-accent mt-6 w-full text-base"
+        disabled={loading || !effectiveAmount}
+        className="btn-accent mt-6 w-full text-base shadow-md hover:shadow-lg"
         aria-busy={loading}
       >
         {loading ? (
@@ -159,7 +183,7 @@ export default function DonationWidget() {
           </>
         ) : (
           <>
-            <Heart className="h-5 w-5" aria-hidden />
+            <Heart className="h-5 w-5 fill-current" aria-hidden />
             {mode === 'subscription'
               ? `Give $${effectiveAmount || 0}/month`
               : `Donate $${effectiveAmount || 0}`}
@@ -167,9 +191,8 @@ export default function DonationWidget() {
         )}
       </button>
 
-      <p className="mt-4 text-center text-xs text-teal-600">
-        Secure payments powered by Stripe. You can cancel a monthly gift at any
-        time.
+      <p className="mt-4 text-center text-xs leading-relaxed text-teal-600">
+        Secure payments powered by Stripe. {mode === 'subscription' ? 'You can cancel a monthly gift at any time.' : 'All donations are processed securely.'}
       </p>
     </div>
   );

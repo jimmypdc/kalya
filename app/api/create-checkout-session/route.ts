@@ -19,25 +19,48 @@ const MAX_USD = 50_000;
 
 export async function POST(request: Request) {
   try {
+    // Check Stripe configuration first
     if (!process.env.STRIPE_SECRET_KEY) {
+      // eslint-disable-next-line no-console
+      console.error('[create-checkout-session] Missing STRIPE_SECRET_KEY');
       return NextResponse.json(
         { error: 'Payments are not configured yet. Please try again later.' },
         { status: 503 },
       );
     }
 
-    const body = (await request.json()) as {
-      amount?: unknown;
-      mode?: unknown;
-    };
+    // Parse and validate request body
+    let body: { amount?: unknown; mode?: unknown };
+    try {
+      body = (await request.json()) as { amount?: unknown; mode?: unknown };
+    } catch (err) {
+      return NextResponse.json(
+        { error: 'Invalid request format.' },
+        { status: 400 },
+      );
+    }
 
     const amount = Number(body.amount);
     const mode = body.mode === 'subscription' ? 'subscription' : 'payment';
 
-    // Validate the amount.
-    if (!Number.isFinite(amount) || amount < MIN_USD || amount > MAX_USD) {
+    // Validate the amount with detailed error messages
+    if (!Number.isFinite(amount)) {
       return NextResponse.json(
-        { error: `Please choose an amount between $${MIN_USD} and $${MAX_USD}.` },
+        { error: 'Please enter a valid donation amount.' },
+        { status: 400 },
+      );
+    }
+    
+    if (amount < MIN_USD) {
+      return NextResponse.json(
+        { error: `The minimum donation amount is $${MIN_USD}.` },
+        { status: 400 },
+      );
+    }
+    
+    if (amount > MAX_USD) {
+      return NextResponse.json(
+        { error: `For donations over $${MAX_USD}, please contact us directly.` },
         { status: 400 },
       );
     }
@@ -45,11 +68,13 @@ export async function POST(request: Request) {
     const unitAmount = Math.round(amount * 100); // dollars → cents
     const baseUrl = siteConfig.url.replace(/\/$/, '');
 
+    // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       mode,
       // Collect email so we can create/lookup a donor record in the webhook.
       customer_creation: mode === 'payment' ? 'always' : undefined,
       billing_address_collection: 'auto',
+      payment_method_types: ['card'],
       line_items: [
         {
           quantity: 1,
@@ -77,7 +102,13 @@ export async function POST(request: Request) {
       },
       success_url: `${baseUrl}/donate/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/donate/cancel`,
+      // Allow promotion codes for discounts/matching campaigns
+      allow_promotion_codes: true,
     });
+
+    if (!session.url) {
+      throw new Error('Stripe session created but no URL returned.');
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (err) {

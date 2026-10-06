@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Heart, Mail, Shield } from 'lucide-react';
 import NewsletterForm from '@/components/NewsletterForm';
+import ButterflyDecoration from '@/components/ButterflyDecoration';
 import { navLinks, siteConfig, kayla } from '@/lib/site';
 
 /**
@@ -11,9 +12,19 @@ export default function Footer() {
   const year = 2025; // Static to keep server/client render deterministic; bump as needed.
 
   return (
-    <footer className="mt-auto border-t border-teal-900/10 bg-teal-950 text-teal-100">
+    <footer className="relative mt-auto overflow-hidden border-t border-teal-900/10 bg-gradient-to-br from-teal-950 via-teal-950 to-teal-900 text-teal-100">
+      {/* Decorative elements */}
+      <ButterflyDecoration
+        size={100}
+        className="absolute left-8 top-16 text-white/3"
+      />
+      <ButterflyDecoration
+        size={80}
+        className="absolute right-12 bottom-24 text-gold-400/5"
+      />
+      
       {/* Newsletter band */}
-      <div className="border-b border-teal-900">
+      <div className="relative z-10 border-b border-teal-900">
         <div className="container-content flex flex-col items-start justify-between gap-6 py-10 lg:flex-row lg:items-center">
           <div className="max-w-md">
             <h2 className="font-serif text-2xl font-bold text-white">
@@ -31,7 +42,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="container-content grid gap-10 py-14 md:grid-cols-4">
+      <div className="container-content relative z-10 grid gap-10 py-14 md:grid-cols-4">
         {/* Brand + mission */}
         <div className="md:col-span-2">
           <div className="flex items-center gap-2 font-serif text-xl font-bold text-white">
@@ -110,7 +121,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-teal-900">
+      <div className="relative z-10 border-t border-teal-900">
         <div className="container-content flex flex-col items-center justify-between gap-3 py-6 text-xs text-teal-300 sm:flex-row">
           <p>
             © {year} {siteConfig.name}. All rights reserved.

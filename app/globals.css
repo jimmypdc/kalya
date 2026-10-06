@@ -15,6 +15,8 @@
   body {
     @apply bg-white text-teal-950 antialiased;
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Respect users who prefer reduced motion. */
@@ -47,19 +49,19 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
       transition-all duration-200 focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2
-      disabled:cursor-not-allowed disabled:opacity-60;
+      disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .btn-primary {
-    @apply btn bg-teal-900 text-white shadow-sm hover:bg-teal-800 hover:shadow-md active:scale-[0.98];
+    @apply btn bg-teal-900 text-white shadow-md hover:bg-teal-800 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
   }
 
   .btn-accent {
-    @apply btn bg-gold-400 text-teal-950 shadow-sm hover:bg-gold-300 hover:shadow-md active:scale-[0.98];
+    @apply btn bg-gold-400 text-teal-950 shadow-md hover:bg-gold-500 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
   }
 
   .btn-outline {
-    @apply btn border border-teal-900/20 bg-white text-teal-900 hover:border-teal-900/40 hover:bg-teal-50;
+    @apply btn border-2 border-teal-900/20 bg-white text-teal-900 shadow-sm hover:border-teal-900/40 hover:bg-teal-50 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0;
   }
 
   .btn-ghost {
@@ -78,7 +80,7 @@
 
   /* Card */
   .card {
-    @apply rounded-2xl border border-teal-900/10 bg-white p-6 shadow-sm transition-shadow hover:shadow-md;
+    @apply rounded-2xl border border-teal-900/10 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1;
   }
 
   /* Prose-ish readable text block */

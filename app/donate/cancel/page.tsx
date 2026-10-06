@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { HeartHandshake, ArrowLeft } from 'lucide-react';
+import FlowerDecoration from '@/components/FlowerDecoration';
 
 export const metadata: Metadata = {
   title: 'Donation Canceled',
@@ -11,16 +12,26 @@ export const metadata: Metadata = {
 /** Shown when a donor cancels or backs out of Stripe Checkout. */
 export default function DonateCancelPage() {
   return (
-    <section className="section">
-      <div className="container-content flex flex-col items-center text-center">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-teal-100">
+    <section className="section relative">
+      {/* Subtle decorative elements */}
+      <FlowerDecoration
+        size={90}
+        className="absolute left-12 top-24 text-teal-900/5"
+      />
+      <FlowerDecoration
+        size={70}
+        className="absolute right-16 bottom-32 text-teal-900/5"
+      />
+      
+      <div className="container-content relative z-10 flex flex-col items-center text-center">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-teal-100 to-teal-50 shadow-lg ring-4 ring-teal-50">
           <HeartHandshake className="h-11 w-11 text-teal-700" aria-hidden />
         </div>
 
-        <h1 className="mt-6 font-serif text-4xl font-bold text-teal-900">
+        <h1 className="mt-6 font-serif text-4xl font-bold text-teal-900 sm:text-5xl">
           No worries at all
         </h1>
-        <p className="mt-4 max-w-xl text-lg text-teal-700">
+        <p className="mt-4 max-w-xl text-lg leading-relaxed text-teal-700">
           Your donation wasn&apos;t completed and you haven&apos;t been charged.
           If something went wrong or you changed your mind, you&apos;re always
           welcome to try again — every gift makes a difference.
